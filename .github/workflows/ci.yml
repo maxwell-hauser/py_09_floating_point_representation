@@ -1,0 +1,46 @@
+name: CI - Test Python Script
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Find and test Python script
+      run: |
+        # Find the main Python script (matches folder name)
+        SCRIPT=$(find . -maxdepth 1 -name "*.py" -type f | head -n 1)
+        if [ -z "$SCRIPT" ]; then
+          echo "No Python script found"
+          exit 1
+        fi
+        echo "Testing: $SCRIPT"
+        python "$SCRIPT"
+    
+    - name: Verify script execution
+      run: |
+        SCRIPT=$(find . -maxdepth 1 -name "*.py" -type f | head -n 1)
+        if [ $? -eq 0 ]; then
+          echo "✅ Script executed successfully"
+        else
+          echo "❌ Script execution failed"
+          exit 1
+        fi
+

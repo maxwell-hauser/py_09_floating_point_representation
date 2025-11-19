@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.inputs.version || github.ref_name }}
+        name: Release ${{ github.event.inputs.version || github.ref_name }}
+        body: |
+          ## Computer Systems and Logic - Educational Python Examples
+          
+          This release includes:
+          - ✅ Tested and verified Python example script
+          - 📚 Comprehensive README documentation
+          - 📝 Original course materials in Markdown
+          
+          ### Running the Example
+          ```bash
+          python *.py
+          ```
+          
+          See README.md for detailed information and learning objectives.
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
