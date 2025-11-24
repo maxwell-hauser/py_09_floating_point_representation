@@ -449,9 +449,4 @@ A: Use a threshold (epsilon): `abs(a - b) < 1e-9` instead of `a == b`.
 ← Previous: [Chapter 8 - Binary Arithmetic](../ch8_binary_addition_subtraction/) | Next: [Chapter 10 - Binary Coded Decimal](../ch10_binary_coded_decimals/) →
 
 ---
-
-## Authorship
-Authored by Maxwell Hauser on November 19, 2025
-
-## License
-MIT License
+<!-- License moved to dedicated LICENSE file -->
